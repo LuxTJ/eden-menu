@@ -1,0 +1,271 @@
+{
+  "starters": [
+    {
+      "name": "4 Loaded Potato Skins",
+      "price": 10,
+      "image": "images/loaded-potato-skins.webp",
+      "variations": ["Cheese", "Bacon", "Sour Cream"],
+      "addons": []
+    },
+    {
+      "name": "5 Cheese Sticks",
+      "price": 6,
+      "image": "images/cheese-sticks.webp",
+      "variations": ["Ranch", "Marinara"],
+      "addons": []
+    },
+    {
+      "name": "Zucchini Fries",
+      "price": 6,
+      "image": "images/zucchini-fries.jpg",
+      "variations": ["Ranch"],
+      "addons": []
+    },
+    {
+      "name": "Large Onion Rings",
+      "price": 6,
+      "image": "images/onion-rings.jpg",
+      "variations": ["Ketchup"],
+      "addons": []
+    },
+    {
+      "name": "Ballpark Nachos",
+      "price": 6,
+      "image": "images/nachos.jpg",
+      "variations": ["Jalapeno"],
+      "addons": []
+    },
+    {
+      "name": "Hand Cut Fries",
+      "price": 6,
+      "image": "images/fries.jpg",
+      "variations": ["Ketchup"],
+      "addons": [{"name": "Add Cheese", "price": 2}]
+    },
+    {
+      "name": "State Fair Corn Dog",
+      "price": 4,
+      "image": "images/corn-dog.jpg",
+      "variations": ["Mustard"],
+      "addons": []
+    },
+    {
+      "name": "Bag of Chips",
+      "price": 3,
+      "image": "images/chips.webp",
+      "variations": ["Lays", "Doritos", "BBQ"],
+      "addons": []
+    }
+  ],
+  "mains": [
+    {
+      "name": "Margherita Pizza",
+      "price": 14,
+      "variations": ["Basil", "Mozzarella"],
+      "addons": []
+    },
+    {
+      "name": "12 Inch Brick Oven Cheese Pizza",
+      "price": 12,
+      "variations": ["Red Sauce", "White Sauce", "Ranch", "Garlic Butter"],
+      "addons": [
+        {"name": "Pepperoni", "price": 1},
+        {"name": "Canadian Bacon", "price": 1},
+        {"name": "American Bacon", "price": 1},
+        {"name": "Sausage", "price": 1},
+        {"name": "Chicken", "price": 1},
+        {"name": "Hamburger", "price": 1},
+        {"name": "Steak", "price": 1},
+        {"name": "Extra Cheese", "price": 1},
+        {"name": "Pineapple", "price": 1},
+        {"name": "Bell Pepper", "price": 1},
+        {"name": "Onion", "price": 1},
+        {"name": "Mushroom", "price": 1},
+        {"name": "Black Olives", "price": 1},
+        {"name": "Jalapeno", "price": 1},
+        {"name": "Tomato", "price": 1},
+        {"name": "Spinach", "price": 1}
+      ]
+    },
+    {
+      "name": "12 Inch Brick Oven Cheese Pizza (Unlimited Toppings)",
+      "price": 16,
+      "variations": ["Red Sauce", "White Sauce", "Pepperoni", "Canadian Bacon", "American Bacon", "Sausage", "Chicken", "Hamburger", "Steak", "Extra Cheese", "Pineapple", "Bell Pepper", "Onion", "Mushroom", "Black Olives", "Jalapeno", "Tomato", "Spinach", "Ranch", "Garlic Butter"],
+      "addons": []
+    },
+    {
+      "name": "Stromboli with Unlimited Toppings",
+      "price": 16,
+      "variations": ["Red Sauce", "White Sauce", "Pepperoni", "Canadian Bacon", "American Bacon", "Sausage", "Chicken", "Hamburger", "Steak", "Extra Cheese", "Pineapple", "Bell Pepper", "Onion", "Mushroom", "Black Olives", "Jalapeno", "Tomato", "Spinach", "Ranch", "Garlic Butter"],
+      "addons": []
+    },
+    {
+      "name": "Specialty Pizzas",
+      "price": 13,
+      "variations": ["BBQ Chicken", "Buffalo Chicken Ranch", "Chicken Alfredo", "Chicken Bacon Ranch", "Hawaiian", "Three Meat", "Supreme"],
+      "addons": []
+    },
+    {
+      "name": "Smash Burger",
+      "price": 12,
+      "description": "1/2 Pound of Fresh Angus Beef on a Sesame Seed Bun",
+      "variations": ["American", "Provolone", "Mozzarella", "Cheese Sauce", "Swiss", "Shredded Cheddar", "Lettuce", "Tomato", "Pickle", "Sautéed Onions", "Raw Onions", "Mushrooms", "Jalapenos", "Sweet Relish", "Mustard", "Ketchup", "Mayo", "BBQ", "A1 Sauce", "Ranch"],
+      "addons": [{"name": "Extra Cheese", "price": 1}, {"name": "Add Bacon", "price": 2}]
+    },
+    {
+      "name": "3 Smash Burger Sliders",
+      "price": 12,
+      "description": "1/2 Pound of Fresh Angus Beef on a Sesame Seed Bun",
+      "variations": ["American", "Provolone", "Mozzarella", "Cheese Sauce", "Swiss", "Shredded Cheddar", "Lettuce", "Tomato", "Pickle", "Sautéed Onions", "Raw Onions", "Mushrooms", "Jalapenos", "Sweet Relish", "Mustard", "Ketchup", "Mayo", "BBQ", "A1 Sauce", "Ranch"],
+      "addons": [{"name": "Extra Cheese", "price": 1}, {"name": "Add Bacon", "price": 2}]
+    },
+    {
+      "name": "Street Taco",
+      "price": 6,
+      "variations": ["Soft Corn Tortilla", "Toasted Corn Tortilla", "Crispy Corn", "Flour", "Steak", "Ground Beef", "Chicken", "Shrimp", "Cilantro", "Onions", "Cabbage", "Lettuce", "Tomato", "Fresh Jalapeno", "Cheese", "Lime", "Mild Red Sauce", "Salsa Verde Hot (green)", "Sour Cream", "Creamy Garlic Cilantro Sauce"],
+      "addons": []
+    },
+    {
+      "name": "Chicken Bacon Ranch Taco",
+      "price": 8,
+      "variations": ["Grilled Chicken", "Bacon", "Cheese", "Pico de Gallo", "Ranch"],
+      "addons": []
+    },
+    {
+      "name": "Cheese Quesadilla",
+      "price": 6,
+      "variations": ["Steak", "Chicken", "Shrimp", "Chorizo", "Ground Beef", "Bacon", "Canadian Bacon", "Cilantro", "Onions", "Bell Pepper", "Mushrooms", "Tomato", "Fresh Jalapeno", "Mild Red Sauce", "Hot Red Sauce", "Salsa Verde Hot (green)", "Sour Cream", "Ranch", "Creamy Garlic Cilantro Sauce"],
+      "addons": [{"name": "Extra Meat", "price": 1}]
+    },
+    {
+      "name": "Loaded Quesadilla",
+      "price": 12,
+      "variations": ["Steak", "Chicken", "Shrimp", "Chorizo", "Ground Beef", "Bacon", "Canadian Bacon", "Cilantro", "Onions", "Bell Pepper", "Mushrooms", "Tomato", "Fresh Jalapeno", "Mild Red Sauce", "Hot Red Sauce", "Salsa Verde Hot (green)", "Sour Cream", "Ranch", "Creamy Garlic Cilantro Sauce"],
+      "addons": [{"name": "Extra Meat", "price": 1}]
+    },
+    {
+      "name": "6 Naked Chicken Wings",
+      "price": 12,
+      "description": "One Flavor with Celery, Carrots & Ranch",
+      "variations": ["Frank's Hot Buffalo", "Sweet Baby Ray's Honey BBQ", "Caribbean Jerk", "Asian Zing", "Hidden Valley Ranch Dry Rub", "Lemon Pepper Dry Rub", "Garlic Parmesan Dry Rub", "Plain"],
+      "addons": []
+    },
+    {
+      "name": "Philly Cheese Sandwich",
+      "price": 12,
+      "variations": ["Steak", "Chicken", "Provolone", "Mozzarella", "Cheese Sauce", "Swiss", "Bell Pepper", "Onion", "Mushroom", "Fresh Jalapeno", "Jalapenos", "Ranch"],
+      "addons": [{"name": "Extra Cheese", "price": 1}, {"name": "Add Bacon", "price": 2}]
+    },
+    {
+      "name": "Breakfast Burger",
+      "price": 12,
+      "description": "1/4 Pound of Fresh Angus Beef on a Sesame Seed Bun",
+      "variations": ["Fried Egg", "Bacon", "Potato", "Choice of Cheese", "Garlic Aioli"],
+      "addons": []
+    },
+    {
+      "name": "Breakfast Taco",
+      "price": 6,
+      "variations": ["Sausage", "Steak", "Bacon", "Chorizo", "Chicken", "Potato", "Cheese", "Onion", "Bell Pepper", "Tomato", "Mushrooms", "Hot Sauce (red)", "Salsa Verde (green)", "Fresh Jalapeno", "Ketchup"],
+      "addons": [{"name": "Extra Meat", "price": 2}]
+    },
+    {
+      "name": "Loaded Omelet",
+      "price": 12,
+      "variations": ["Sausage", "Steak", "Bacon", "Ham", "Chorizo", "Chicken", "Onions", "Bell Pepper", "Tomato", "Mushrooms", "Potato", "Black Olives", "Fresh Jalapeno", "Cabbage", "Spinach", "Provolone", "Mozzarella", "Cheese Sauce", "Swiss", "Hot Sauce (red)", "Salsa Verde (green)", "Ketchup", "Ranch"],
+      "addons": [{"name": "Extras", "price": 1}]
+    },
+    {
+      "name": "Club Sandwich",
+      "price": 10,
+      "variations": ["Mayo", "Mustard", "Ranch"],
+      "addons": []
+    },
+    {
+      "name": "Sub Club Sandwich",
+      "price": 12,
+      "variations": ["Mayo", "Mustard", "Ranch"],
+      "addons": []
+    },
+    {
+      "name": "Crispy Chicken Sandwich",
+      "price": 12,
+      "variations": ["Lettuce", "Tomato", "Pickle", "Mustard", "Ketchup", "Mayo", "BBQ", "Ranch"],
+      "addons": []
+    },
+    {
+      "name": "Bacon Grilled Cheese",
+      "price": 8,
+      "variations": ["American Bacon", "Canadian Bacon"],
+      "addons": [{"name": "Extra Bacon", "price": 2}]
+    },
+    {
+      "name": "Patty Melt",
+      "price": 12,
+      "variations": ["American", "Provolone", "Swiss", "Shredded Cheddar", "Sauteed Onion", "Mushrooms", "Jalapeno", "Mustard", "Ketchup", "Mayo", "BBQ-Sauce", "A1 Sauce", "Ranch"],
+      "addons": [{"name": "Add Bacon", "price": 2}]
+    },
+    {
+      "name": "BLT Sandwich",
+      "price": 8,
+      "variations": ["Mayo", "Mustard", "Ranch"],
+      "addons": [{"name": "Extra Cheese", "price": 1}, {"name": "Extra Bacon", "price": 2}, {"name": "Add Fried Egg", "price": 2}]
+    },
+    {
+      "name": "Chef Chop Salad",
+      "price": 12,
+      "variations": ["Ranch", "Thousand Island", "Italian", "Bleu Cheese", "Vinaigrette"],
+      "addons": []
+    },
+    {
+      "name": "Taco Salad",
+      "price": 12,
+      "variations": ["Lettuce", "Tomato", "Cheeses", "Black Olives", "Cilantro", "Sour Cream", "Red Salsa", "Tortilla Strips"],
+      "addons": []
+    },
+    {
+      "name": "Loaded Nachos",
+      "price": 12,
+      "variations": ["Steak", "Chicken", "Shrimp", "Bacon", "Hamburger", "Chorizo", "Cilantro", "Onions", "Lettuce", "Tomato", "Fresh Jalapeno", "Jalapeno", "Lime", "Mild Red Sauce", "Salsa Verde Hot (green)", "Sour Cream"],
+      "addons": [{"name": "Extra Meat", "price": 2}]
+    },
+    {
+      "name": "Loaded Hand Cut Fries",
+      "price": 11,
+      "description": "Includes Cheese Sauce and 1 Meat Choice",
+      "variations": ["Steak", "Chicken", "Hamburger", "Bacon", "Cilantro", "Onions", "Lettuce", "Tomato", "Jalapeno", "Ketchup", "Sour Cream", "Ranch"],
+      "addons": [{"name": "Extra Meat", "price": 2}]
+    }
+  ],
+  "sweets": [
+    {
+      "name": "Churro (1)",
+      "price": 5,
+      "description": "Caramel filling with Cinnamon Sugar",
+      "variations": ["Strawberry", "Bavarian Cream"],
+      "addons": [{"name": "Whipped cream", "price": 0}, {"name": "Berry sauce", "price": 0}]
+    }
+  ],
+  "drinks": [
+    {
+      "name": "DRINKS",
+      "type": "dropdown",
+      "price": 3,
+      "description": "Select your drink",
+      "variations": [
+        { "name": "Sprite", "price": 3 },
+        { "name": "Ginger Ale", "price": 3 },
+        { "name": "Dr. Pepper", "price": 3 },
+        { "name": "Diet Dr. Pepper", "price": 3 },
+        { "name": "Tonic", "price": 3 },
+        { "name": "Club Soda", "price": 3 },
+        { "name": "Orange Juice", "price": 3 },
+        { "name": "Cranberry-Pineapple Juice", "price": 3 },
+        { "name": "Red Bull", "price": 5 },
+        { "name": "Sugar Free Red Bull", "price": 5 },
+        { "name": "Bottled Water", "price": 2 }
+      ],
+      "addons": []
+    }
+  ]
+}

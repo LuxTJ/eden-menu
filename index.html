@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club Eden - Late Night Menu</title>
+<link rel="stylesheet" href="styles.css?v=10">
+</head>
+<body>
+<header class="hero">
+<div class="hero-bg"></div>
+<div class="hero-overlay"></div>
+<div class="hero-content">
+<div class="logo-circle">
+<img src="logo.png" alt="Club Eden">
+</div>
+<h1>Club Eden</h1>
+<p class="subtitle">Late Night Menu</p>
+</div>
+</header>
+
+<nav class="bottom-nav">
+<a href="#contact" class="nav-item">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+<span>CONTACT</span>
+</a>
+<button class="cart-btn" onclick="showCart()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+<span class="cart-count" id="cart-count">0</span>
+</button>
+</nav>
+
+<div class="cart-modal" id="cart-modal">
+<div class="cart-content">
+<div class="cart-header">
+<h2>Your Order</h2>
+<button class="close-cart" onclick="closeCart()">×</button>
+</div>
+<div class="cart-items" id="cart-items"></div>
+<div class="cart-total" id="cart-total">Total: $0</div>
+<div class="customer-form" id="customer-form">
+<h3>Order Details</h3>
+<label>Name</label>
+<input type="text" id="customer-name" placeholder="Your name">
+<label>Email</label>
+<input type="email" id="customer-email" placeholder="your@email.com">
+<label>Table Number</label>
+<input type="text" id="customer-table" placeholder="Table #">
+</div>
+<button class="checkout-btn" onclick="placeOrder()">Place Order</button>
+</div>
+</div>
+
+<div class="order-confirmation" id="order-confirmation">
+<div class="confirmation-content">
+<div class="checkmark">✓</div>
+<h2>Order Placed!</h2>
+<p id="confirmation-text"></p>
+<button class="checkout-btn" onclick="closeConfirmation()">Done</button>
+</div>
+</div>
+
+<main id="menu" class="menu-container">
+<section class="menu-section" id="starters">
+<h2 class="section-title">STARTERS</h2>
+<div class="menu-list" id="starters-list"></div>
+</section>
+
+<section class="menu-section" id="mains">
+<h2 class="section-title">MAINS</h2>
+<div class="menu-list" id="mains-list"></div>
+</section>
+
+<section class="menu-section" id="sweets">
+<h2 class="section-title">SWEET THINGS</h2>
+<div class="menu-list" id="sweets-list"></div>
+</section>
+
+<div class="menu-list" id="drinks-list"></div>
+</main>
+
+<section id="contact" class="contact-section">
+<h2 class="section-title">CONTACT US</h2>
+<div class="contact-image">
+<img src="contact.jpeg" alt="Club Eden">
+</div>
+<div class="social-links">
+<a href="https://facebook.com/CVEDEN1" target="_blank" class="social-icon" aria-label="Facebook">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+</a>
+<a href="https://instagram.com/club_edenofficials" target="_blank" class="social-icon" aria-label="Instagram">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zM17.5 6.5h.01"/></svg>
+</a>
+<a href="https://tiktok.com/@officialclubeden" target="_blank" class="social-icon" aria-label="TikTok">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.17V11.7a4.83 4.83 0 01-3.77-1.24V6.69h3.77z"/></svg>
+</a>
+<a href="https://youtube.com/@justsextalkpodcast" target="_blank" class="social-icon" aria-label="YouTube">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#ffffff"/></svg>
+</a>
+</div>
+<a href="https://edenclubs.com" target="_blank" class="website-link">edenclubs.com</a>
+</section>
+
+<script src="app.js?v=10"></script>
+</body>
+</html>

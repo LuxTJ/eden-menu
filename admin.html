@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club Eden - Admin</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #000; color: #fff; padding: 1rem; }
+h1 { text-align: center; margin-bottom: 1rem; color: #45BEFC; }
+h2 { margin: 1.5rem 0 1rem; color: #008DD6; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+h3 { margin: 1rem 0 0.5rem; color: #DCBF65; }
+.section { margin-bottom: 2rem; }
+.item-card { background: #111; border: 1px solid #333; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.item-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.item-card-header h4 { font-size: 1.1rem; }
+.btn { padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; }
+.btn-primary { background: #008DD6; color: #fff; }
+.btn-primary:hover { background: #45BEFC; }
+.btn-danger { background: #dc3545; color: #fff; }
+.btn-danger:hover { background: #ff4d5d; }
+.btn-success { background: #28a745; color: #fff; }
+.btn-success:hover { background: #34d058; }
+.btn-sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+.btn-add { background: #333; color: #fff; width: 100%; padding: 0.75rem; margin-top: 0.5rem; }
+.btn-add:hover { background: #444; }
+label { display: block; margin-bottom: 0.25rem; font-size: 0.875rem; color: #aaa; }
+input[type="text"], input[type="number"] { width: 100%; padding: 0.5rem; background: #222; border: 1px solid #444; border-radius: 4px; color: #fff; font-size: 0.875rem; margin-bottom: 0.5rem; }
+input:focus { outline: none; border-color: #008DD6; }
+.option-list { margin: 0.5rem 0; }
+.option-tag { display: inline-flex; align-items: center; gap: 0.5rem; background: #222; border: 1px solid #444; border-radius: 4px; padding: 0.25rem 0.5rem; margin: 0.25rem; font-size: 0.8rem; }
+.option-tag .remove { cursor: pointer; color: #dc3545; font-weight: bold; }
+.option-tag .remove:hover { color: #ff4d5d; }
+.add-option-row { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.add-option-row input { flex: 1; margin-bottom: 0; }
+.actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; }
+.save-bar { position: sticky; bottom: 0; background: #111; border-top: 1px solid #333; padding: 1rem; display: flex; gap: 1rem; justify-content: center; z-index: 100; }
+.save-bar .btn { padding: 0.75rem 2rem; font-size: 1rem; }
+.preview-link { text-align: center; margin-bottom: 1rem; }
+.preview-link a { color: #45BEFC; text-decoration: none; }
+.preview-link a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Club Eden - Menu Admin</h1>
+<div class="preview-link"><a href="index.html" target="_blank">Preview Menu</a> | <a href="kitchen.html" target="_blank">Kitchen Dashboard</a></div>
+
+<div id="admin-content"></div>
+
+<div class="save-bar">
+<button class="btn btn-success" onclick="saveChanges()">Save Changes</button>
+<button class="btn btn-primary" onclick="exportJSON()">Export JSON</button>
+<button class="btn btn-primary" onclick="document.getElementById('import-file').click()">Import JSON</button>
+<input type="file" id="import-file" accept=".json" style="display:none" onchange="importJSON(event)">
+</div>
+
+<script>
+let menuData = {};
+const sections = ['starters', 'mains', 'sweets', 'drinks'];
+const sectionLabels = { starters: 'STARTERS', mains: 'MAINS', sweets: 'SWEET THINGS', drinks: 'DRINKS' };
+
+async function loadData() {
+  const saved = localStorage.getItem('clubEdenMenu');
+  if (saved) {
+    menuData = JSON.parse(saved);
+  } else {
+    const res = await fetch('menu.json');
+    menuData = await res.json();
+  }
+  render();
+}
+
+function render() {
+  const container = document.getElementById('admin-content');
+  container.innerHTML = sections.map(section => `
+    <div class="section">
+      <h2>${sectionLabels[section]}</h2>
+      ${menuData[section].map((item, i) => renderItemCard(section, item, i)).join('')}
+      <button class="btn btn-add" onclick="addItem('${section}')">+ Add Item to ${sectionLabels[section]}</button>
+    </div>
+  `).join('');
+}
+
+function renderItemCard(section, item, index) {
+  return `
+    <div class="item-card">
+      <div class="item-card-header">
+        <h4>${item.name || 'New Item'}</h4>
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('${section}', ${index})">Delete</button>
+      </div>
+      <label>Name</label>
+      <input type="text" value="${item.name}" onchange="updateItem('${section}', ${index}, 'name', this.value)">
+      <label>Price ($)</label>
+      <input type="number" step="0.01" value="${item.price}" onchange="updateItem('${section}', ${index}, 'price', parseFloat(this.value))">
+      <h3>Options (variations)</h3>
+      <div class="option-list">
+        ${(item.variations || []).map((v, vi) => `
+          <span class="option-tag">${v} <span class="remove" onclick="removeVariation('${section}', ${index}, ${vi})">&times;</span></span>
+        `).join('')}
+      </div>
+      <div class="add-option-row">
+        <input type="text" placeholder="Add option..." id="var-input-${section}-${index}">
+        <button class="btn btn-primary btn-sm" onclick="addVariation('${section}', ${index})">Add</button>
+      </div>
+      <h3>Add-Ons</h3>
+      <div class="option-list">
+        ${(item.addons || []).map((a, ai) => `
+          <span class="option-tag">${a.name} (+$${a.price}) <span class="remove" onclick="removeAddon('${section}', ${index}, ${ai})">&times;</span></span>
+        `).join('')}
+      </div>
+      <div class="add-option-row">
+        <input type="text" placeholder="Add-on name..." id="addon-name-${section}-${index}">
+        <input type="number" step="0.01" placeholder="Price" id="addon-price-${section}-${index}" style="max-width:100px">
+        <button class="btn btn-primary btn-sm" onclick="addAddon('${section}', ${index})">Add</button>
+      </div>
+    </div>
+  `;
+}
+
+function updateItem(section, index, field, value) {
+  menuData[section][index][field] = value;
+}
+
+function addItem(section) {
+  menuData[section].push({ name: 'New Item', price: 0, variations: [], addons: [] });
+  render();
+}
+
+function deleteItem(section, index) {
+  if (confirm('Delete this item?')) {
+    menuData[section].splice(index, 1);
+    render();
+  }
+}
+
+function addVariation(section, index) {
+  const input = document.getElementById(`var-input-${section}-${index}`);
+  const val = input.value.trim();
+  if (val) {
+    menuData[section][index].variations = menuData[section][index].variations || [];
+    menuData[section][index].variations.push(val);
+    render();
+  }
+}
+
+function removeVariation(section, index, vi) {
+  menuData[section][index].variations.splice(vi, 1);
+  render();
+}
+
+function addAddon(section, index) {
+  const nameInput = document.getElementById(`addon-name-${section}-${index}`);
+  const priceInput = document.getElementById(`addon-price-${section}-${index}`);
+  const name = nameInput.value.trim();
+  const price = parseFloat(priceInput.value) || 0;
+  if (name) {
+    menuData[section][index].addons = menuData[section][index].addons || [];
+    menuData[section][index].addons.push({ name, price });
+    render();
+  }
+}
+
+function removeAddon(section, index, ai) {
+  menuData[section][index].addons.splice(ai, 1);
+  render();
+}
+
+function saveChanges() {
+  localStorage.setItem('clubEdenMenu', JSON.stringify(menuData));
+  alert('Saved! Changes will appear on the menu page.');
+}
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(menuData, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'menu.json';
+  a.click();
+}
+
+function importJSON(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      menuData = JSON.parse(e.target.result);
+      render();
+      saveChanges();
+    };
+    reader.readAsText(file);
+  }
+}
+
+loadData();
+</script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club Eden - Kitchen Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS - Replace with your public key from emailjs.com
+  // emailjs.init("YOUR_PUBLIC_KEY");
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #000; color: #fff; padding: 1rem; }
+h1 { text-align: center; margin-bottom: 1rem; color: #45BEFC; }
+h2 { margin: 1.5rem 0 1rem; color: #008DD6; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
+.stats { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
+.stat-card { background: #111; border: 1px solid #333; border-radius: 8px; padding: 1rem 1.5rem; text-align: center; min-width: 120px; }
+.stat-number { font-size: 2rem; font-weight: 700; color: #45BEFC; }
+.stat-label { font-size: 0.875rem; color: #aaa; margin-top: 0.25rem; }
+.orders-container { max-width: 800px; margin: 0 auto; }
+.order-card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; transition: all 0.3s; }
+.order-card.status-pending { border-left: 4px solid #ffc107; }
+.order-card.status-preparing { border-left: 4px solid #008DD6; }
+.order-card.status-ready { border-left: 4px solid #28a745; }
+.order-card.status-completed { border-left: 4px solid #666; opacity: 0.6; }
+.order-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+.order-id { font-size: 1.25rem; font-weight: 700; color: #45BEFC; }
+.order-time { font-size: 0.875rem; color: #aaa; }
+.order-customer { display: flex; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.customer-info { font-size: 0.875rem; }
+.customer-info strong { color: #DCBF65; }
+.order-items { margin-bottom: 1rem; }
+.order-item { padding: 0.5rem 0; border-bottom: 1px solid #222; }
+.order-item-name { font-weight: 600; }
+.order-item-options { font-size: 0.875rem; color: #aaa; margin-top: 0.25rem; }
+.order-item-price { font-weight: 700; color: #45BEFC; float: right; }
+.order-total { text-align: right; font-size: 1.25rem; font-weight: 700; color: #45BEFC; margin: 1rem 0; padding-top: 0.75rem; border-top: 1px solid #333; }
+.order-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.btn { padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; }
+.btn-warning { background: #ffc107; color: #000; }
+.btn-warning:hover { background: #ffca2c; }
+.btn-primary { background: #008DD6; color: #fff; }
+.btn-primary:hover { background: #45BEFC; }
+.btn-success { background: #28a745; color: #fff; }
+.btn-success:hover { background: #34d058; }
+.btn-danger { background: #dc3545; color: #fff; }
+.btn-danger:hover { background: #ff4d5d; }
+.btn-secondary { background: #555; color: #fff; }
+.btn-secondary:hover { background: #666; }
+.status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+.status-pending .status-badge { background: #ffc107; color: #000; }
+.status-preparing .status-badge { background: #008DD6; color: #fff; }
+.status-ready .status-badge { background: #28a745; color: #fff; }
+.status-completed .status-badge { background: #666; color: #fff; }
+.sms-status { font-size: 0.75rem; color: #aaa; margin-top: 0.5rem; }
+.sms-status.sent { color: #28a745; }
+.filter-bar { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.filter-btn { padding: 0.5rem 1rem; background: #222; border: 1px solid #333; border-radius: 6px; color: #fff; cursor: pointer; font-size: 0.875rem; }
+.filter-btn.active { background: #008DD6; border-color: #008DD6; }
+.filter-btn:hover { background: #333; }
+.empty-state { text-align: center; padding: 3rem; color: #666; }
+.refresh-bar { text-align: center; margin-bottom: 1rem; }
+.refresh-bar .btn { background: #222; border: 1px solid #333; }
+.auto-refresh { font-size: 0.875rem; color: #aaa; margin-left: 1rem; }
+</style>
+</head>
+<body>
+
+<h1>Kitchen Dashboard</h1>
+
+<div class="refresh-bar">
+<button class="btn" onclick="loadOrders()">Refresh</button>
+<span class="auto-refresh">Auto-refresh: <label><input type="checkbox" id="auto-refresh" checked onchange="toggleAutoRefresh()"> On</label></span>
+<button class="btn btn-secondary" onclick="clearCompleted()">Clear Completed</button>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
+<button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">Pending</button>
+<button class="filter-btn" data-filter="preparing" onclick="setFilter('preparing')">Preparing</button>
+<button class="filter-btn" data-filter="ready" onclick="setFilter('ready')">Ready</button>
+<button class="filter-btn" data-filter="completed" onclick="setFilter('completed')">Completed</button>
+</div>
+
+<div class="orders-container" id="orders-container"></div>
+
+<script>
+let orders = [];
+let currentFilter = 'all';
+let autoRefreshInterval = null;
+
+function loadOrders() {
+  orders = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
+  renderStats();
+  renderOrders();
+}
+
+function renderStats() {
+  const pending = orders.filter(o => o.status === 'pending').length;
+  const preparing = orders.filter(o => o.status === 'preparing').length;
+  const ready = orders.filter(o => o.status === 'ready').length;
+  const completed = orders.filter(o => o.status === 'completed').length;
+  
+  document.getElementById('stats').innerHTML = `
+    <div class="stat-card"><div class="stat-number">${pending}</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card"><div class="stat-number">${preparing}</div><div class="stat-label">Preparing</div></div>
+    <div class="stat-card"><div class="stat-number">${ready}</div><div class="stat-label">Ready</div></div>
+    <div class="stat-card"><div class="stat-number">${completed}</div><div class="stat-label">Completed</div></div>
+    <div class="stat-card"><div class="stat-number">${orders.length}</div><div class="stat-label">Total</div></div>
+  `;
+}
+
+function renderOrders() {
+  const container = document.getElementById('orders-container');
+  const filtered = currentFilter === 'all' ? orders : orders.filter(o => o.status === currentFilter);
+  
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state">No orders found</div>';
+    return;
+  }
+  
+  container.innerHTML = filtered.map(order => {
+    const time = new Date(order.timestamp).toLocaleTimeString();
+    const date = new Date(order.timestamp).toLocaleDateString();
+    
+    return `
+      <div class="order-card status-${order.status}">
+        <div class="order-header">
+          <div>
+            <span class="order-id">${order.id}</span>
+            <span class="status-badge">${order.status}</span>
+          </div>
+          <div class="order-time">${date} ${time}</div>
+        </div>
+        <div class="order-customer">
+          <div class="customer-info"><strong>Customer:</strong> ${order.customer.name}</div>
+          <div class="customer-info"><strong>Email:</strong> ${order.customer.email}</div>
+          <div class="customer-info"><strong>Table:</strong> ${order.customer.table}</div>
+        </div>
+        <div class="order-items">
+          ${order.items.map(item => `
+            <div class="order-item">
+              <span class="order-item-name">${item.name}</span>
+              <span class="order-item-price">$${item.total}</span>
+              ${item.options.length > 0 ? `<div class="order-item-options">${item.options.join(', ')}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+        <div class="order-total">Total: $${order.total}</div>
+        <div class="order-actions">
+          ${order.status === 'pending' ? `<button class="btn btn-primary" onclick="updateStatus('${order.id}', 'preparing')">Start Preparing</button>` : ''}
+          ${order.status === 'preparing' ? `<button class="btn btn-success" onclick="updateStatus('${order.id}', 'ready')">Mark Ready</button>` : ''}
+          ${order.status === 'ready' ? `<button class="btn btn-secondary" onclick="updateStatus('${order.id}', 'completed')">Mark Completed</button>` : ''}
+          ${order.status === 'ready' && !order.notified ? `<button class="btn btn-warning" onclick="sendEmail('${order.id}')">Send Email</button>` : ''}
+          <button class="btn btn-danger" onclick="deleteOrder('${order.id}')">Delete</button>
+        </div>
+        ${order.notified ? '<div class="sms-status sent">SMS sent to customer</div>' : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+  renderOrders();
+}
+
+function updateStatus(orderId, status) {
+  const order = orders.find(o => o.id === orderId);
+  if (order) {
+    order.status = status;
+    if (status === 'ready' && !order.notified) {
+      sendSMS(orderId);
+    }
+    saveOrders();
+    loadOrders();
+  }
+}
+
+function sendEmail(orderId) {
+  const order = orders.find(o => o.id === orderId);
+  if (order) {
+    order.notified = true;
+    saveOrders();
+    loadOrders();
+    
+    // EmailJS integration - uncomment and add your keys from emailjs.com
+    /*
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+      to_email: order.customer.email,
+      customer_name: order.customer.name,
+      order_id: order.id,
+      table: order.customer.table,
+      order_details: order.items.map(item => 
+        `- ${item.name}${item.options.length > 0 ? ' (' + item.options.join(', ') + ')' : ''} - $${item.total}`
+      ).join('\n'),
+      total: order.total
+    }).then(() => {
+      alert('Email sent successfully!');
+    }).catch((error) => {
+      alert('Failed to send email: ' + error.text);
+    });
+    */
+    
+    // For now, show alert with email content
+    const emailBody = `Hi ${order.customer.name}!
+
+Your order #${order.id} is ready for pickup at Table ${order.customer.table}.
+
+Order Summary:
+${order.items.map(item => `- ${item.name}${item.options.length > 0 ? ' (' + item.options.join(', ') + ')' : ''} - $${item.total}`).join('\n')}
+
+Total: $${order.total}
+
+Thank you for choosing Club Eden!`;
+    
+    alert(`Email would be sent to ${order.customer.email}:\n\n${emailBody}`);
+  }
+}
+
+function deleteOrder(orderId) {
+  if (confirm('Delete this order?')) {
+    orders = orders.filter(o => o.id !== orderId);
+    saveOrders();
+    loadOrders();
+  }
+}
+
+function clearCompleted() {
+  if (confirm('Clear all completed orders?')) {
+    orders = orders.filter(o => o.status !== 'completed');
+    saveOrders();
+    loadOrders();
+  }
+}
+
+function saveOrders() {
+  localStorage.setItem('clubEdenOrders', JSON.stringify(orders));
+}
+
+function toggleAutoRefresh() {
+  const checkbox = document.getElementById('auto-refresh');
+  if (checkbox.checked) {
+    autoRefreshInterval = setInterval(loadOrders, 5000);
+  } else {
+    clearInterval(autoRefreshInterval);
+  }
+}
+
+loadOrders();
+toggleAutoRefresh();
+</script>
+</body>
+</html>
