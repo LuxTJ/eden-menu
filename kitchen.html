@@ -4,200 +4,377 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Club Eden - Kitchen Dashboard</title>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>
-  // Initialize EmailJS - Replace with your public key from emailjs.com
-  // emailjs.init("YOUR_PUBLIC_KEY");
-</script>
+<link rel="stylesheet" href="styles.css?v=22">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: #000; color: #fff; padding: 1rem; }
-h1 { text-align: center; margin-bottom: 1rem; color: #45BEFC; }
-h2 { margin: 1.5rem 0 1rem; color: #008DD6; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
-.stats { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap; }
-.stat-card { background: #111; border: 1px solid #333; border-radius: 8px; padding: 1rem 1.5rem; text-align: center; min-width: 120px; }
-.stat-number { font-size: 2rem; font-weight: 700; color: #45BEFC; }
-.stat-label { font-size: 0.875rem; color: #aaa; margin-top: 0.25rem; }
-.orders-container { max-width: 800px; margin: 0 auto; }
-.order-card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; transition: all 0.3s; }
-.order-card.status-pending { border-left: 4px solid #ffc107; }
-.order-card.status-preparing { border-left: 4px solid #008DD6; }
-.order-card.status-ready { border-left: 4px solid #28a745; }
-.order-card.status-completed { border-left: 4px solid #666; opacity: 0.6; }
-.order-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
-.order-id { font-size: 1.25rem; font-weight: 700; color: #45BEFC; }
-.order-time { font-size: 0.875rem; color: #aaa; }
-.order-customer { display: flex; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-.customer-info { font-size: 0.875rem; }
-.customer-info strong { color: #DCBF65; }
-.order-items { margin-bottom: 1rem; }
-.order-item { padding: 0.5rem 0; border-bottom: 1px solid #222; }
-.order-item-name { font-weight: 600; }
-.order-item-options { font-size: 0.875rem; color: #aaa; margin-top: 0.25rem; }
-.order-item-price { font-weight: 700; color: #45BEFC; float: right; }
-.order-total { text-align: right; font-size: 1.25rem; font-weight: 700; color: #45BEFC; margin: 1rem 0; padding-top: 0.75rem; border-top: 1px solid #333; }
-.order-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.btn { padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-weight: 600; transition: all 0.2s; }
-.btn-warning { background: #ffc107; color: #000; }
-.btn-warning:hover { background: #ffca2c; }
-.btn-primary { background: #008DD6; color: #fff; }
-.btn-primary:hover { background: #45BEFC; }
-.btn-success { background: #28a745; color: #fff; }
-.btn-success:hover { background: #34d058; }
-.btn-danger { background: #dc3545; color: #fff; }
-.btn-danger:hover { background: #ff4d5d; }
-.btn-secondary { background: #555; color: #fff; }
-.btn-secondary:hover { background: #666; }
-.status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
-.status-pending .status-badge { background: #ffc107; color: #000; }
-.status-preparing .status-badge { background: #008DD6; color: #fff; }
-.status-ready .status-badge { background: #28a745; color: #fff; }
-.status-completed .status-badge { background: #666; color: #fff; }
-.sms-status { font-size: 0.75rem; color: #aaa; margin-top: 0.5rem; }
-.sms-status.sent { color: #28a745; }
-.filter-bar { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
-.filter-btn { padding: 0.5rem 1rem; background: #222; border: 1px solid #333; border-radius: 6px; color: #fff; cursor: pointer; font-size: 0.875rem; }
-.filter-btn.active { background: #008DD6; border-color: #008DD6; }
-.filter-btn:hover { background: #333; }
-.empty-state { text-align: center; padding: 3rem; color: #666; }
-.refresh-bar { text-align: center; margin-bottom: 1rem; }
-.refresh-bar .btn { background: #222; border: 1px solid #333; }
-.auto-refresh { font-size: 0.875rem; color: #aaa; margin-left: 1rem; }
+#view-kitchen-satx {
+  display: none;
+}
+
+.kitchen-view * { margin: 0; padding: 0; box-sizing: border-box; }
+
+.kitchen-view body { font-family: Arial, sans-serif; background: #000; color: #fff; padding: 1rem; }
+
+.kitchen-view h1 { text-align: center; margin-bottom: 0.25rem; color: #45BEFC; }
+
+.kitchen-view .subtitle { text-align: center; color: #666; font-size: 0.8rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.kitchen-view .stats { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+.kitchen-view .stat-card { background: #111; border: 1px solid #333; border-radius: 8px; padding: 1rem 1.5rem; text-align: center; min-width: 110px; }
+
+.kitchen-view .stat-number { font-size: 2rem; font-weight: 700; color: #45BEFC; font-variant-numeric: tabular-nums; }
+
+.kitchen-view .stat-label { font-size: 0.8rem; color: #aaa; margin-top: 0.25rem; }
+
+.kitchen-view .tickets-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; align-items: start; }
+
+.kitchen-view .ticket { border-radius: 14px; padding: 1rem 1.1rem; border: 1px solid; transition: transform 0.15s ease; }
+
+.kitchen-view .ticket:hover { transform: translateY(-2px); }
+
+.kitchen-view .ticket.status-pending { background: rgba(255, 193, 7, 0.09);  border-color: rgba(255, 193, 7, 0.5); }
+
+.kitchen-view .ticket.status-preparing { background: rgba(0, 141, 214, 0.10);  border-color: rgba(0, 141, 214, 0.55); }
+
+.kitchen-view .ticket.status-ready { background: rgba(40, 167, 69, 0.11);  border-color: rgba(40, 167, 69, 0.55); }
+
+.kitchen-view .ticket.status-completed { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.12); opacity: 0.55; }
+
+.kitchen-view .ticket-header { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; margin-bottom: 0.15rem; }
+
+.kitchen-view .ticket-customer { font-size: 1.15rem; font-weight: 700; }
+
+.kitchen-view .ticket-timer { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; color: #DCBF65; white-space: nowrap; }
+
+.kitchen-view .ticket.status-completed .ticket-timer { color: #888; }
+
+.kitchen-view .ticket-email { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-bottom: 0.4rem; }
+
+.kitchen-view .ticket-email-missing { color: #dc3545; font-weight: 600; }
+
+.kitchen-view .ticket-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem; color: rgba(255,255,255,0.55); margin-bottom: 0.6rem; }
+
+.kitchen-view .pickup-badge { display: inline-block; padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.6rem; }
+
+.kitchen-view .status-pending   .pickup-badge { background: #ffc107; color: #000; }
+
+.kitchen-view .status-preparing  .pickup-badge { background: #008DD6; color: #fff; }
+
+.kitchen-view .status-ready      .pickup-badge { background: #28a745; color: #fff; }
+
+.kitchen-view .status-completed  .pickup-badge { background: #555; color: #ccc; }
+
+.kitchen-view .side-badge { display: inline-block; padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.6rem; background: #9c27b0; color: #fff; margin-left: 0.5rem; }
+
+.kitchen-view .ticket-items { margin-bottom: 0.75rem; }
+
+.kitchen-view .ticket-item { padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+.kitchen-view .ticket-item:last-child { border-bottom: none; }
+
+.kitchen-view .ticket-item-row { display: flex; justify-content: space-between; gap: 0.5rem; }
+
+.kitchen-view .ticket-item-name { font-weight: 700; }
+
+.kitchen-view .ticket-item-price { font-weight: 700; color: #45BEFC; white-space: nowrap; }
+
+.kitchen-view .ticket-item-options { font-size: 0.85rem; color: #45BEFC; margin-top: 0.15rem; padding-left: 0.75rem; }
+
+.kitchen-view .ticket-total { text-align: right; font-size: 1.05rem; font-weight: 700; color: #45BEFC; margin-bottom: 0.75rem; padding-top: 0.6rem; border-top: 1px solid rgba(255,255,255,0.12); }
+
+.kitchen-view .ticket-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+
+.kitchen-view .status-select {
+  flex: 1;
+  min-width: 130px;
+  padding: 0.5rem 0.6rem;
+  background: #000;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.kitchen-view .status-select:focus { outline: none; border-color: #45BEFC; }
+
+.kitchen-view .btn { padding: 0.5rem 0.75rem; border: none; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; white-space: nowrap; }
+
+.kitchen-view .btn-warning { background: #ffc107; color: #000; }
+
+.kitchen-view .btn-warning:hover { background: #ffca2c; }
+
+.kitchen-view .btn-danger { background: transparent; color: #dc3545; border: 1px solid #dc3545; }
+
+.kitchen-view .btn-danger:hover { background: rgba(220,53,69,0.15); }
+
+.kitchen-view .btn-secondary { background: #222; color: #fff; border: 1px solid #333; }
+
+.kitchen-view .btn-secondary:hover { background: #333; }
+
+.kitchen-view .notified-tag { font-size: 0.75rem; color: #28a745; margin-top: 0.5rem; }
+
+.kitchen-view .filter-bar { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+.kitchen-view .filter-btn { padding: 0.5rem 1rem; background: #222; border: 1px solid #333; border-radius: 6px; color: #fff; cursor: pointer; font-size: 0.875rem; }
+
+.kitchen-view .filter-btn.active { background: #008DD6; border-color: #008DD6; }
+
+.kitchen-view .filter-btn:hover { background: #333; }
+
+.kitchen-view .empty-state { text-align: center; padding: 3rem; color: #666; grid-column: 1 / -1; }
+
+.kitchen-view .refresh-bar { text-align: center; margin-bottom: 0.5rem; display: flex; gap: 0.75rem; justify-content: center; align-items: center; flex-wrap: wrap; }
+
+.kitchen-view .refresh-bar .btn { background: #222; border: 1px solid #333; }
+
+.kitchen-view .auto-refresh { font-size: 0.875rem; color: #aaa; }
+
+.kitchen-view .reset-note { font-size: 0.75rem; color: #666; display: block; text-align: center; margin-bottom: 1.5rem; }
+
 </style>
 </head>
 <body>
 
+<div id="preview-tabs">
+<a href="menu.html">Customer Menu</a>
+<a href="kitchen.html?loc=dfw" id="tab-dfw">Kitchen - DFW</a>
+<a href="kitchen.html?loc=satx" id="tab-satx">Kitchen - San Antonio</a>
+</div>
+
+<div id="view-kitchen-dfw">
+<div class="kitchen-view" id="kitchen-root-dfw">
 <h1>Kitchen Dashboard</h1>
+<p class="subtitle">DFW - Pickup at the bar</p>
 
 <div class="refresh-bar">
-<button class="btn" onclick="loadOrders()">Refresh</button>
-<span class="auto-refresh">Auto-refresh: <label><input type="checkbox" id="auto-refresh" checked onchange="toggleAutoRefresh()"> On</label></span>
-<button class="btn btn-secondary" onclick="clearCompleted()">Clear Completed</button>
+<button class="btn" onclick="loadOrders_dfw()">Refresh</button>
+<span class="auto-refresh"><label><input type="checkbox" id="auto-refresh-dfw" checked onchange="toggleAutoRefresh_dfw()"> Auto-refresh</label></span>
+<button class="btn btn-secondary" onclick="clearCompleted_dfw()">Clear Completed</button>
 </div>
+<p class="reset-note" id="reset-note-dfw"></p>
 
-<div class="stats" id="stats"></div>
+<div class="stats" id="stats-dfw"></div>
 
 <div class="filter-bar">
-<button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
-<button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">Pending</button>
-<button class="filter-btn" data-filter="preparing" onclick="setFilter('preparing')">Preparing</button>
-<button class="filter-btn" data-filter="ready" onclick="setFilter('ready')">Ready</button>
-<button class="filter-btn" data-filter="completed" onclick="setFilter('completed')">Completed</button>
+<button class="filter-btn active" data-filter="all" onclick="setFilter_dfw('all')">All</button>
+<button class="filter-btn" data-filter="pending" onclick="setFilter_dfw('pending')">Pending</button>
+<button class="filter-btn" data-filter="preparing" onclick="setFilter_dfw('preparing')">Preparing</button>
+<button class="filter-btn" data-filter="ready" onclick="setFilter_dfw('ready')">Ready</button>
+<button class="filter-btn" data-filter="completed" onclick="setFilter_dfw('completed')">Completed</button>
 </div>
 
-<div class="orders-container" id="orders-container"></div>
+<div class="tickets-container" id="orders-container-dfw"></div>
+</div>
+</div>
+
+<div id="view-kitchen-satx">
+<div class="kitchen-view" id="kitchen-root-satx">
+<h1>Kitchen Dashboard</h1>
+<p class="subtitle">San Antonio - Pickup at the bar</p>
+
+<div class="refresh-bar">
+<button class="btn" onclick="loadOrders_satx()">Refresh</button>
+<span class="auto-refresh"><label><input type="checkbox" id="auto-refresh-satx" checked onchange="toggleAutoRefresh_satx()"> Auto-refresh</label></span>
+<button class="btn btn-secondary" onclick="clearCompleted_satx()">Clear Completed</button>
+</div>
+<p class="reset-note" id="reset-note-satx"></p>
+
+<div class="stats" id="stats-satx"></div>
+
+<div class="filter-bar">
+<button class="filter-btn active" data-filter="all" onclick="setFilter_satx('all')">All</button>
+<button class="filter-btn" data-filter="pending" onclick="setFilter_satx('pending')">Pending</button>
+<button class="filter-btn" data-filter="preparing" onclick="setFilter_satx('preparing')">Preparing</button>
+<button class="filter-btn" data-filter="ready" onclick="setFilter_satx('ready')">Ready</button>
+<button class="filter-btn" data-filter="completed" onclick="setFilter_satx('completed')">Completed</button>
+</div>
+
+<div class="tickets-container" id="orders-container-satx"></div>
+</div>
+</div>
+
 
 <script>
-let orders = [];
-let currentFilter = 'all';
-let autoRefreshInterval = null;
-
-function loadOrders() {
-  orders = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
-  renderStats();
-  renderOrders();
+function switchKitchen(loc) {
+  document.getElementById('view-kitchen-dfw').style.display  = loc === 'dfw'  ? 'block' : 'none';
+  document.getElementById('view-kitchen-satx').style.display = loc === 'satx' ? 'block' : 'none';
+  document.getElementById('tab-dfw').classList.toggle('active', loc === 'dfw');
+  document.getElementById('tab-satx').classList.toggle('active', loc === 'satx');
 }
 
-function renderStats() {
-  const pending = orders.filter(o => o.status === 'pending').length;
-  const preparing = orders.filter(o => o.status === 'preparing').length;
-  const ready = orders.filter(o => o.status === 'ready').length;
-  const completed = orders.filter(o => o.status === 'completed').length;
-  
-  document.getElementById('stats').innerHTML = `
+// ?loc=satx opens San Antonio; anything else (including no param) opens DFW.
+switchKitchen(new URLSearchParams(location.search).get('loc') === 'satx' ? 'satx' : 'dfw');
+</script>
+
+<script>
+const LOCATION_dfw = 'dfw';
+
+
+let orders_dfw = [];
+let currentFilter_dfw = 'all';
+let autoRefreshInterval_dfw = null;
+let timerInterval_dfw = null;
+
+// --- Daily 5am reset (best-effort, per-browser only until there's a shared backend) ---
+const RESET_HOUR_dfw = 5;
+
+function currentCycleStart_dfw(now) {
+  const cycleStart = new Date(now);
+  cycleStart.setHours(RESET_HOUR_dfw, 0, 0, 0);
+  if (now < cycleStart) cycleStart.setDate(cycleStart.getDate() - 1);
+  return cycleStart;
+}
+
+function applyDailyReset_dfw() {
+  const now = new Date();
+  const cycleStart = currentCycleStart_dfw(now);
+  const resetKey = 'clubEdenLastResetCycle_' + LOCATION_dfw;
+  const lastCycle = localStorage.getItem(resetKey);
+
+  if (lastCycle !== cycleStart.toISOString()) {
+    if (lastCycle !== null) {
+      // A 5am boundary has passed since we last checked - clear this location's board for the new day.
+      const all = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
+      const otherLocations = all.filter(o => o.location !== LOCATION_dfw);
+      localStorage.setItem('clubEdenOrders', JSON.stringify(otherLocations));
+    }
+    localStorage.setItem(resetKey, cycleStart.toISOString());
+  }
+
+  const nextReset = new Date(cycleStart);
+  nextReset.setDate(nextReset.getDate() + 1);
+  const hrsLeft = Math.max(0, (nextReset - now) / 3600000);
+  document.getElementById('reset-note-dfw').textContent =
+    `Board resets daily at 5:00 AM (in ~${hrsLeft.toFixed(1)}h) - this device only, until orders move to a shared database`;
+}
+
+function loadOrders_dfw() {
+  applyDailyReset_dfw();
+  const all = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
+  orders_dfw = all.filter(o => o.location === LOCATION_dfw);
+  renderStats_dfw();
+  renderOrders_dfw();
+}
+
+function renderStats_dfw() {
+  const pending = orders_dfw.filter(o => o.status === 'pending').length;
+  const preparing = orders_dfw.filter(o => o.status === 'preparing').length;
+  const ready = orders_dfw.filter(o => o.status === 'ready').length;
+  const completed = orders_dfw.filter(o => o.status === 'completed').length;
+
+  document.getElementById('stats-dfw').innerHTML = `
     <div class="stat-card"><div class="stat-number">${pending}</div><div class="stat-label">Pending</div></div>
     <div class="stat-card"><div class="stat-number">${preparing}</div><div class="stat-label">Preparing</div></div>
     <div class="stat-card"><div class="stat-number">${ready}</div><div class="stat-label">Ready</div></div>
     <div class="stat-card"><div class="stat-number">${completed}</div><div class="stat-label">Completed</div></div>
-    <div class="stat-card"><div class="stat-number">${orders.length}</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-number">${orders_dfw.length}</div><div class="stat-label">Total</div></div>
   `;
 }
 
-function renderOrders() {
-  const container = document.getElementById('orders-container');
-  const filtered = currentFilter === 'all' ? orders : orders.filter(o => o.status === currentFilter);
-  
+function formatElapsed_dfw(ms) {
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
+}
+
+const STATUS_LABELS_dfw = { pending: 'Pending', preparing: 'Preparing', ready: 'Ready', completed: 'Completed' };
+const SIDE_LABELS = { eden: 'Eden', infliction: 'Infliction Hall' };
+
+function renderOrders_dfw() {
+  const container = document.getElementById('orders-container-dfw');
+  const filtered = currentFilter_dfw === 'all' ? orders_dfw : orders_dfw.filter(o => o.status === currentFilter_dfw);
+
   if (filtered.length === 0) {
-    container.innerHTML = '<div class="empty-state">No orders found</div>';
+    container.innerHTML = '<div class="empty-state">No orders_dfw found</div>';
     return;
   }
-  
+
   container.innerHTML = filtered.map(order => {
-    const time = new Date(order.timestamp).toLocaleTimeString();
-    const date = new Date(order.timestamp).toLocaleDateString();
-    
+    const placedTime = new Date(order.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     return `
-      <div class="order-card status-${order.status}">
-        <div class="order-header">
-          <div>
-            <span class="order-id">${order.id}</span>
-            <span class="status-badge">${order.status}</span>
-          </div>
-          <div class="order-time">${date} ${time}</div>
+      <div class="ticket status-${order.status}" data-id="${order.id}" data-timestamp="${order.timestamp}">
+        <div class="pickup-badge">Pickup at Bar - Order #${order.id.replace('ORD-', '')}</div>
+        ${order.side ? `<div class="side-badge">${SIDE_LABELS[order.side]}</div>` : ''}
+        <div class="ticket-header">
+          <span class="ticket-customer">${order.customer.name}</span>
+          <span class="ticket-timer" data-timer>00:00:00</span>
         </div>
-        <div class="order-customer">
-          <div class="customer-info"><strong>Customer:</strong> ${order.customer.name}</div>
-          <div class="customer-info"><strong>Email:</strong> ${order.customer.email}</div>
-          <div class="customer-info"><strong>Table:</strong> ${order.customer.table}</div>
+        <div class="ticket-email ${order.customer.email ? '' : 'ticket-email-missing'}">${order.customer.email || 'No email provided'}</div>
+        <div class="ticket-meta">
+          <span>Placed ${placedTime}</span>
+          <span>${STATUS_LABELS_dfw[order.status]}</span>
         </div>
-        <div class="order-items">
+        <div class="ticket-items">
           ${order.items.map(item => `
-            <div class="order-item">
-              <span class="order-item-name">${item.name}</span>
-              <span class="order-item-price">$${item.total}</span>
-              ${item.options.length > 0 ? `<div class="order-item-options">${item.options.join(', ')}</div>` : ''}
+            <div class="ticket-item">
+              <div class="ticket-item-row">
+                <span class="ticket-item-name">${item.quantity}x ${item.name}</span>
+                <span class="ticket-item-price">$${item.total}</span>
+              </div>
+              ${item.options.length > 0 ? `<div class="ticket-item-options">${item.options.join(', ')}</div>` : ''}
             </div>
           `).join('')}
         </div>
-        <div class="order-total">Total: $${order.total}</div>
-        <div class="order-actions">
-          ${order.status === 'pending' ? `<button class="btn btn-primary" onclick="updateStatus('${order.id}', 'preparing')">Start Preparing</button>` : ''}
-          ${order.status === 'preparing' ? `<button class="btn btn-success" onclick="updateStatus('${order.id}', 'ready')">Mark Ready</button>` : ''}
-          ${order.status === 'ready' ? `<button class="btn btn-secondary" onclick="updateStatus('${order.id}', 'completed')">Mark Completed</button>` : ''}
-          ${order.status === 'ready' && !order.notified ? `<button class="btn btn-warning" onclick="sendEmail('${order.id}')">Send Email</button>` : ''}
-          <button class="btn btn-danger" onclick="deleteOrder('${order.id}')">Delete</button>
+        <div class="ticket-total">Total: $${order.total}</div>
+        <div class="ticket-actions">
+          <select class="status-select" onchange="updateStatus_dfw('${order.id}', this.value)">
+            ${Object.keys(STATUS_LABELS_dfw).map(s => `<option value="${s}" ${s === order.status ? 'selected' : ''}>${STATUS_LABELS_dfw[s]}</option>`).join('')}
+          </select>
+          ${order.status === 'ready' && !order.notified ? `<button class="btn btn-warning" onclick="sendEmail_dfw('${order.id}')">Notify</button>` : ''}
+          <button class="btn btn-danger" onclick="deleteOrder_dfw('${order.id}')">Delete</button>
         </div>
-        ${order.notified ? '<div class="sms-status sent">SMS sent to customer</div>' : ''}
+        ${order.notified ? '<div class="notified-tag">Customer notified</div>' : ''}
       </div>
     `;
   }).join('');
+
+  updateTimers_dfw();
 }
 
-function setFilter(filter) {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-btn').forEach(btn => {
+function updateTimers_dfw() {
+  const now = Date.now();
+  document.getElementById('kitchen-root-dfw').querySelectorAll('.ticket[data-timestamp]').forEach(el => {
+    const timerEl = el.querySelector('[data-timer]');
+    if (timerEl) timerEl.textContent = formatElapsed_dfw(now - new Date(el.dataset.timestamp).getTime());
+  });
+}
+
+function setFilter_dfw(filter) {
+  currentFilter_dfw = filter;
+  document.querySelectorAll('.filter-btn:not(.side-filter)').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.filter === filter);
   });
-  renderOrders();
+  renderOrders_dfw();
 }
 
-function updateStatus(orderId, status) {
-  const order = orders.find(o => o.id === orderId);
+function updateStatus_dfw(orderId, status) {
+  const order = orders_dfw.find(o => o.id === orderId);
   if (order) {
     order.status = status;
-    if (status === 'ready' && !order.notified) {
-      sendSMS(orderId);
-    }
-    saveOrders();
-    loadOrders();
+    saveOrders_dfw();
+    loadOrders_dfw();
   }
 }
 
-function sendEmail(orderId) {
-  const order = orders.find(o => o.id === orderId);
+function sendEmail_dfw(orderId) {
+  const order = orders_dfw.find(o => o.id === orderId);
   if (order) {
     order.notified = true;
-    saveOrders();
-    loadOrders();
-    
+    saveOrders_dfw();
+    loadOrders_dfw();
+
     // EmailJS integration - uncomment and add your keys from emailjs.com
     /*
     emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
       to_email: order.customer.email,
       customer_name: order.customer.name,
       order_id: order.id,
-      table: order.customer.table,
-      order_details: order.items.map(item => 
+      order_details: order.items.map(item =>
         `- ${item.name}${item.options.length > 0 ? ' (' + item.options.join(', ') + ')' : ''} - $${item.total}`
       ).join('\n'),
       total: order.total
@@ -207,11 +384,11 @@ function sendEmail(orderId) {
       alert('Failed to send email: ' + error.text);
     });
     */
-    
+
     // For now, show alert with email content
     const emailBody = `Hi ${order.customer.name}!
 
-Your order #${order.id} is ready for pickup at Table ${order.customer.table}.
+Your order #${order.id} is ready for pickup at the bar.
 
 Order Summary:
 ${order.items.map(item => `- ${item.name}${item.options.length > 0 ? ' (' + item.options.join(', ') + ')' : ''} - $${item.total}`).join('\n')}
@@ -219,42 +396,282 @@ ${order.items.map(item => `- ${item.name}${item.options.length > 0 ? ' (' + item
 Total: $${order.total}
 
 Thank you for choosing Club Eden!`;
-    
+
     alert(`Email would be sent to ${order.customer.email}:\n\n${emailBody}`);
   }
 }
 
-function deleteOrder(orderId) {
-  if (confirm('Delete this order?')) {
-    orders = orders.filter(o => o.id !== orderId);
-    saveOrders();
-    loadOrders();
+function deleteOrder_dfw(orderId) {
+  {
+    orders_dfw = orders_dfw.filter(o => o.id !== orderId);
+    saveOrders_dfw();
+    loadOrders_dfw();
   }
 }
 
-function clearCompleted() {
-  if (confirm('Clear all completed orders?')) {
-    orders = orders.filter(o => o.status !== 'completed');
-    saveOrders();
-    loadOrders();
+function clearCompleted_dfw() {
+  if (confirm('Clear all completed orders_dfw?')) {
+    orders_dfw = orders_dfw.filter(o => o.status !== 'completed');
+    saveOrders_dfw();
+    loadOrders_dfw();
   }
 }
 
-function saveOrders() {
-  localStorage.setItem('clubEdenOrders', JSON.stringify(orders));
+function saveOrders_dfw() {
+  const all = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
+  const otherLocations = all.filter(o => o.location !== LOCATION_dfw);
+  localStorage.setItem('clubEdenOrders', JSON.stringify([...otherLocations, ...orders_dfw]));
 }
 
-function toggleAutoRefresh() {
-  const checkbox = document.getElementById('auto-refresh');
+function toggleAutoRefresh_dfw() {
+  const checkbox = document.getElementById('auto-refresh-dfw');
   if (checkbox.checked) {
-    autoRefreshInterval = setInterval(loadOrders, 5000);
+    autoRefreshInterval_dfw = setInterval(loadOrders_dfw, 5000);
   } else {
-    clearInterval(autoRefreshInterval);
+    clearInterval(autoRefreshInterval_dfw);
   }
 }
 
-loadOrders();
-toggleAutoRefresh();
+loadOrders_dfw();
+toggleAutoRefresh_dfw();
+timerInterval_dfw = setInterval(updateTimers_dfw, 1000);
+
+loadOrders_dfw();
+toggleAutoRefresh_dfw();
+setInterval(updateTimers_dfw, 1000);
+
+
+const LOCATION_satx = 'satx';
+
+
+let orders_satx = [];
+let currentFilter_satx = 'all';
+let autoRefreshInterval_satx = null;
+let timerInterval_satx = null;
+
+// --- Daily 5am reset (best-effort, per-browser only until there's a shared backend) ---
+const RESET_HOUR_satx = 5;
+
+function currentCycleStart_satx(now) {
+  const cycleStart = new Date(now);
+  cycleStart.setHours(RESET_HOUR_satx, 0, 0, 0);
+  if (now < cycleStart) cycleStart.setDate(cycleStart.getDate() - 1);
+  return cycleStart;
+}
+
+function applyDailyReset_satx() {
+  const now = new Date();
+  const cycleStart = currentCycleStart_satx(now);
+  const resetKey = 'clubEdenLastResetCycle_' + LOCATION_satx;
+  const lastCycle = localStorage.getItem(resetKey);
+
+  if (lastCycle !== cycleStart.toISOString()) {
+    if (lastCycle !== null) {
+      // A 5am boundary has passed since we last checked - clear this location's board for the new day.
+      const all = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
+      const otherLocations = all.filter(o => o.location !== LOCATION_satx);
+      localStorage.setItem('clubEdenOrders', JSON.stringify(otherLocations));
+    }
+    localStorage.setItem(resetKey, cycleStart.toISOString());
+  }
+
+  const nextReset = new Date(cycleStart);
+  nextReset.setDate(nextReset.getDate() + 1);
+  const hrsLeft = Math.max(0, (nextReset - now) / 3600000);
+  document.getElementById('reset-note-satx').textContent =
+    `Board resets daily at 5:00 AM (in ~${hrsLeft.toFixed(1)}h) - this device only, until orders move to a shared database`;
+}
+
+function loadOrders_satx() {
+  applyDailyReset_satx();
+  const all = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
+  orders_satx = all.filter(o => o.location === LOCATION_satx);
+  renderStats_satx();
+  renderOrders_satx();
+}
+
+function renderStats_satx() {
+  const pending = orders_satx.filter(o => o.status === 'pending').length;
+  const preparing = orders_satx.filter(o => o.status === 'preparing').length;
+  const ready = orders_satx.filter(o => o.status === 'ready').length;
+  const completed = orders_satx.filter(o => o.status === 'completed').length;
+
+  document.getElementById('stats-satx').innerHTML = `
+    <div class="stat-card"><div class="stat-number">${pending}</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card"><div class="stat-number">${preparing}</div><div class="stat-label">Preparing</div></div>
+    <div class="stat-card"><div class="stat-number">${ready}</div><div class="stat-label">Ready</div></div>
+    <div class="stat-card"><div class="stat-number">${completed}</div><div class="stat-label">Completed</div></div>
+    <div class="stat-card"><div class="stat-number">${orders_satx.length}</div><div class="stat-label">Total</div></div>
+  `;
+}
+
+function formatElapsed_satx(ms) {
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
+}
+
+const STATUS_LABELS_satx = { pending: 'Pending', preparing: 'Preparing', ready: 'Ready', completed: 'Completed' };
+
+function renderOrders_satx() {
+  const container = document.getElementById('orders-container-satx');
+  const filtered = currentFilter_satx === 'all' ? orders_satx : orders_satx.filter(o => o.status === currentFilter_satx);
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state">No orders_satx found</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(order => {
+    const placedTime = new Date(order.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    return `
+      <div class="ticket status-${order.status}" data-id="${order.id}" data-timestamp="${order.timestamp}">
+        <div class="pickup-badge">Pickup at Bar - Order #${order.id.replace('ORD-', '')}</div>
+        <div class="ticket-header">
+          <span class="ticket-customer">${order.customer.name}</span>
+          <span class="ticket-timer" data-timer>00:00:00</span>
+        </div>
+        <div class="ticket-email ${order.customer.email ? '' : 'ticket-email-missing'}">${order.customer.email || 'No email provided'}</div>
+        <div class="ticket-meta">
+          <span>Placed ${placedTime}</span>
+          <span>${STATUS_LABELS_satx[order.status]}</span>
+        </div>
+        <div class="ticket-items">
+          ${order.items.map(item => `
+            <div class="ticket-item">
+              <div class="ticket-item-row">
+                <span class="ticket-item-name">${item.quantity}x ${item.name}</span>
+                <span class="ticket-item-price">$${item.total}</span>
+              </div>
+              ${item.options.length > 0 ? `<div class="ticket-item-options">${item.options.join(', ')}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+        <div class="ticket-total">Total: $${order.total}</div>
+        <div class="ticket-actions">
+          <select class="status-select" onchange="updateStatus_satx('${order.id}', this.value)">
+            ${Object.keys(STATUS_LABELS_satx).map(s => `<option value="${s}" ${s === order.status ? 'selected' : ''}>${STATUS_LABELS_satx[s]}</option>`).join('')}
+          </select>
+          ${order.status === 'ready' && !order.notified ? `<button class="btn btn-warning" onclick="sendEmail_satx('${order.id}')">Notify</button>` : ''}
+          <button class="btn btn-danger" onclick="deleteOrder_satx('${order.id}')">Delete</button>
+        </div>
+        ${order.notified ? '<div class="notified-tag">Customer notified</div>' : ''}
+      </div>
+    `;
+  }).join('');
+
+  updateTimers_satx();
+}
+
+function updateTimers_satx() {
+  const now = Date.now();
+  document.getElementById('kitchen-root-satx').querySelectorAll('.ticket[data-timestamp]').forEach(el => {
+    const timerEl = el.querySelector('[data-timer]');
+    if (timerEl) timerEl.textContent = formatElapsed_satx(now - new Date(el.dataset.timestamp).getTime());
+  });
+}
+
+function setFilter_satx(filter) {
+  currentFilter_satx = filter;
+  document.getElementById('kitchen-root-satx').querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+  renderOrders_satx();
+}
+
+function updateStatus_satx(orderId, status) {
+  const order = orders_satx.find(o => o.id === orderId);
+  if (order) {
+    order.status = status;
+    saveOrders_satx();
+    loadOrders_satx();
+  }
+}
+
+function sendEmail_satx(orderId) {
+  const order = orders_satx.find(o => o.id === orderId);
+  if (order) {
+    order.notified = true;
+    saveOrders_satx();
+    loadOrders_satx();
+
+    // EmailJS integration - uncomment and add your keys from emailjs.com
+    /*
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+      to_email: order.customer.email,
+      customer_name: order.customer.name,
+      order_id: order.id,
+      order_details: order.items.map(item =>
+        `- ${item.name}${item.options.length > 0 ? ' (' + item.options.join(', ') + ')' : ''} - $${item.total}`
+      ).join('\n'),
+      total: order.total
+    }).then(() => {
+      alert('Email sent successfully!');
+    }).catch((error) => {
+      alert('Failed to send email: ' + error.text);
+    });
+    */
+
+    // For now, show alert with email content
+    const emailBody = `Hi ${order.customer.name}!
+
+Your order #${order.id} is ready for pickup at the bar.
+
+Order Summary:
+${order.items.map(item => `- ${item.name}${item.options.length > 0 ? ' (' + item.options.join(', ') + ')' : ''} - $${item.total}`).join('\n')}
+
+Total: $${order.total}
+
+Thank you for choosing Club Eden!`;
+
+    alert(`Email would be sent to ${order.customer.email}:\n\n${emailBody}`);
+  }
+}
+
+function deleteOrder_satx(orderId) {
+  {
+    orders_satx = orders_satx.filter(o => o.id !== orderId);
+    saveOrders_satx();
+    loadOrders_satx();
+  }
+}
+
+function clearCompleted_satx() {
+  if (confirm('Clear all completed orders_satx?')) {
+    orders_satx = orders_satx.filter(o => o.status !== 'completed');
+    saveOrders_satx();
+    loadOrders_satx();
+  }
+}
+
+function saveOrders_satx() {
+  const all = JSON.parse(localStorage.getItem('clubEdenOrders') || '[]');
+  const otherLocations = all.filter(o => o.location !== LOCATION_satx);
+  localStorage.setItem('clubEdenOrders', JSON.stringify([...otherLocations, ...orders_satx]));
+}
+
+function toggleAutoRefresh_satx() {
+  const checkbox = document.getElementById('auto-refresh-satx');
+  if (checkbox.checked) {
+    autoRefreshInterval_satx = setInterval(loadOrders_satx, 5000);
+  } else {
+    clearInterval(autoRefreshInterval_satx);
+  }
+}
+
+loadOrders_satx();
+toggleAutoRefresh_satx();
+timerInterval_satx = setInterval(updateTimers_satx, 1000);
+
+loadOrders_satx();
+toggleAutoRefresh_satx();
+setInterval(updateTimers_satx, 1000);
+
 </script>
+</script>
+
 </body>
 </html>

@@ -83,6 +83,15 @@ body {
 .subtitle {
   font-size: 1.25rem;
   color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.location-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   margin-bottom: 2rem;
 }
 
@@ -361,6 +370,15 @@ body {
   color: var(--text-primary);
 }
 
+.option-checkbox-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.option-checkbox-disabled input[type="checkbox"] {
+  cursor: not-allowed;
+}
+
 .item-total {
   font-size: 1rem;
   font-weight: 700;
@@ -565,6 +583,39 @@ body {
   margin-bottom: 1rem;
 }
 
+.menu-item-options-static {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+}
+
+.drinks-plain-list {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+}
+
+.drink-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
+}
+
+.drink-row:last-child {
+  border-bottom: none;
+}
+
+.drink-name {
+  color: var(--text-primary);
+}
+
+.drink-price {
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
 .menu-item-price {
   font-size: 1.125rem;
   font-weight: 700;
@@ -576,7 +627,7 @@ body {
 .contact-section {
   max-width: 600px;
   margin: 0 auto;
-  padding: 2rem 1rem 6rem;
+  padding: 2rem 1rem 8rem;
   text-align: center;
   background: #000000;
 }
@@ -920,4 +971,58 @@ body {
   .menu-container {
     padding: 1.5rem 0.75rem 6rem;
   }
+}
+
+.location-toggle { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+.location-toggle-btn { padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.25); background: transparent; color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; cursor: pointer; }
+
+.location-toggle-btn.active { background: var(--accent-light); border-color: var(--accent-light); color: #000; }
+
+.customer-form label:has(+ .location-toggle) { display: block; text-align: center; margin-bottom: 0.75rem; }
+
+.side-toggle { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+
+.side-toggle-btn { padding: 0.4rem 0.9rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.25); background: transparent; color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; cursor: pointer; }
+
+.side-toggle-btn.active { background: var(--accent-light); border-color: var(--accent-light); color: #000; }
+
+#side-selector-wrapper label { display: block; text-align: center; margin-bottom: 0.75rem; }
+
+/* Site tabs: route between the customer menu and each kitchen dashboard. */
+#preview-tabs {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.75rem;
+  background: #000000;
+  border-bottom: 1px solid #222222;
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  flex-wrap: wrap;
+}
+
+#preview-tabs a {
+  padding: 0.5rem 1.1rem;
+  border-radius: 20px;
+  border: 1px solid #333333;
+  background: #111111;
+  color: #aaaaaa;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#preview-tabs a:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+#preview-tabs a.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
 }
